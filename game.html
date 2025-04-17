@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Gators Trivia Game</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      color: #0021a5;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      border: 2px solid #fa4616;
+      border-radius: 10px;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #fa4616;
+    }
+
+    .question {
+      margin-bottom: 20px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #0021a5;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .result {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    a {
+      display: inline-block;
+      margin-top: 20px;
+      color: #fa4616;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Gators Trivia Quiz 🐊</h1>
+
+    <div id="quiz">
+      <!-- Questions will be injected here -->
+    </div>
+
+    <button onclick="submitQuiz()">Submit Answers</button>
+    <div id="result" class="result"></div>
+
+    <!-- Link back to the Scratch page -->
+    <a href="scratch.html">← Back to Scratch Page</a>
+  </div>
+
+  <script>
+    const quizData = [
+      {
+        question: "What year did the Gators win their first football national championship?",
+        options: ["1996", "2006", "1984", "2012"],
+        answer: "1996"
+      },
+      {
+        question: "Who was the quarterback for the Gators during the 2008 national championship season?",
+        options: ["Danny Wuerffel", "Chris Leak", "Tim Tebow", "Kyle Trask"],
+        answer: "Tim Tebow"
+      },
+      {
+        question: "In what sport did the Florida Gators win the 2025 national championship?",
+        options: ["Baseball", "Basketball", "Soccer", "Swimming"],
+        answer: "Basketball"
+      }
+    ];
+
+    const quizContainer = document.getElementById("quiz");
+
+    quizData.forEach((q, index) => {
+      const qBlock = document.createElement("div");
+      qBlock.classList.add("question");
+
+      const qText = document.createElement("p");
+      qText.textContent = `${index + 1}. ${q.question}`;
+      qBlock.appendChild(qText);
+
+      q.options.forEach(option => {
+        const label = document.createElement("label");
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = `q${index}`;
+        radio.value = option;
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(option));
+        qBlock.appendChild(label);
+        qBlock.appendChild(document.createElement("br"));
+      });
+
+      quizContainer.appendChild(qBlock);
+    });
+
+    function submitQuiz() {
+      let score = 0;
+      quizData.forEach((q, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected && selected.value === q.answer) {
+          score++;
+        }
+      });
+      const resultDiv = document.getElementById("result");
+      resultDiv.textContent = `You got ${score} out of ${quizData.length} correct!`;
+    }
+  </script>
+</body>
+</html>
